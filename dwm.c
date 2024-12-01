@@ -1258,6 +1258,7 @@ void
 quit(const Arg *arg)
 {
 	running = 0;
+    exit(arg->i);
 }
 
 Monitor *
