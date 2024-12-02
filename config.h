@@ -100,6 +100,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = -0.25} },
 	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = +0.25} },
 	{ MODKEY,             XK_o,      setcfact,       {.f =  0.00} },
+    {MODKEY|ShiftMask, XK_j, pushstack, {.i = INC(+1)}},
+    {MODKEY|ShiftMask, XK_k, pushstack, {.i = INC(-1)}},
 };
 
 /* button definitions */
