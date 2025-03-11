@@ -42,6 +42,7 @@ static const Layout layouts[] = {
 	{ "[M]",      monocle },
 	{ "TTT",      bstack },
 	{ "===",      bstackhoriz },
+    { "|M|",      centeredmaster },
 };
 
 /* key definitions */
@@ -76,6 +77,7 @@ static const Keychord *keychords[] = {
 	&((Keychord){1, {{MODKEY,                       XK_e}},      setlayout,      {.v = &layouts[2]} }),
 	&((Keychord){1, {{MODKEY,                       XK_i}},      setlayout,      {.v = &layouts[3]} }),
 	&((Keychord){1, {{MODKEY,                       XK_u}},      setlayout,      {.v = &layouts[4]} }),
+	&((Keychord){1, {{MODKEY,                       XK_w}},      setlayout,      {.v = &layouts[5]} }),
 	&((Keychord){1, {{MODKEY,                       XK_space}},  setlayout,      {0} }),
 	&((Keychord){1, {{MODKEY|ShiftMask,             XK_space}},  togglefloating, {0} }),
 	&((Keychord){1, {{MODKEY,                       XK_9}},      view,           {.ui = ~0 } }),
