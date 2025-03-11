@@ -1,5 +1,5 @@
 --- patchset goals ---
-- New layouts: bottomstack, and column.
+- New layouts: bottomstack, and centeredmaster.
 - pertag patch and combo patch working together.
 - alwayscenter patch.
 - cursorwarp patch.

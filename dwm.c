@@ -2334,7 +2334,6 @@ bstack(Monitor *m) {
 	}
 	for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
 		if (i < m->nmaster) {
-			// w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
 			w = (m->ww - mx) * (c->cfact / mfacts);
 			resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 * c->bw), 0);
 			mx += WIDTH(c);
