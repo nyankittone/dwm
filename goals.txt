@@ -1,13 +1,10 @@
 --- patchset goals ---
-- No gaps support.
-- Catppuccin-style rice.
+- keychords patch.
 - New layouts: bottomstack, and column.
 - pertag patch and combo patch working together.
+- alwayscenter patch.
 - cursorwarp patch.
 - systray support for the bar, alongside optionally sgrstatus patch.
 - config option for attaching to either the top or bottom of the stack.
-- Remove unneeded variables from the config.
-- alwayscenter patch.
 - Experiment with fullscreen patches. I want something that works nicer for games.
-- keychords patch.
 
