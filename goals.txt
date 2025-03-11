@@ -1,5 +1,4 @@
 --- patchset goals ---
-- keychords patch.
 - New layouts: bottomstack, and column.
 - pertag patch and combo patch working together.
 - alwayscenter patch.

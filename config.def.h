@@ -10,8 +10,8 @@ static const int topbar             = 0;        /* 0 means bottom bar */
 static const char *fonts[]          = { "ZedMono Nerd Font:size=26" };
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { "#b7bdf8", "#24273a", "#494d64" },
-	[SchemeSel]  = { "#24273a", "#f5bde6",  "#f5bde6"  },
+	[SchemeNorm] = { "#b7bdf8", "#26273a", "#494d64" },
+	[SchemeSel]  = { "#26273a", "#f5bde6",  "#f5bde6"  },
 };
 
 /* tagging. I might add a 9th tag again in the future tbh... */
@@ -32,7 +32,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
@@ -50,15 +50,18 @@ static const Layout layouts[] = {
        &((Keychord){1, {{MODKEY|ShiftMask, KEY}},                              tag,            {.ui = 1 << TAG} }), \
        &((Keychord){1, {{MODKEY|ControlMask|ShiftMask, KEY}},                  toggletag,      {.ui = 1 << TAG} }),
 
+/* helper for spawning commands without a shell. Usually preferred over SHCMD */
+#define CMD(...) {.v = (const char*[]) {__VA_ARGS__, NULL}}
+
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-/* commands */
-static const char *termcmd[]  = { "st", NULL };
+/* alias for the terminal emulator command */
+static const char terminal[] = "st";
 
 static const Keychord *keychords[] = {
 	/* modifier                     key        function        argument */
-	&((Keychord){1, {{MODKEY,             XK_Return}}, spawn,          {.v = termcmd } }),
+	&((Keychord){1, {{MODKEY,             XK_Return}}, spawn,          CMD(terminal) }),
 	&((Keychord){1, {{MODKEY,                       XK_b}},      togglebar,      {0} }),
 	&((Keychord){1, {{MODKEY,                       XK_j}},      focusstack,     {.i = +1 } }),
 	&((Keychord){1, {{MODKEY,                       XK_k}},      focusstack,     {.i = -1 } }),
@@ -88,7 +91,6 @@ static const Keychord *keychords[] = {
 	TAGKEYS(                        XK_6,                      5)
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
-	// &((Keychord){1, {{MODKEY|ShiftMask,             XK_q}},      quit,           {.i = 0} }),
 
 	&((Keychord){1, {{MODKEY|ShiftMask,             XK_h}},      setcfact,       {.f = -0.25} }),
 	&((Keychord){1, {{MODKEY|ShiftMask,             XK_l}},      setcfact,       {.f = +0.25} }),
@@ -99,40 +101,40 @@ static const Keychord *keychords[] = {
     // Stuff relating to exiting dwm and power management control.
 	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_q}},      quit,           {.i = 2} }),
 	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_w}},      quit,           {.i = 0} }),
-	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_s}},      spawn,           SHCMD("systemctl suspend") }),
-	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_h}},      spawn,           SHCMD("systemctl hibernate") }),
-	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_r}},      spawn,           SHCMD("reboot") }),
-	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_p}},      spawn,           SHCMD("poweroff") }),
-	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_l}},      spawn,           SHCMD("xscreensaver-command --activate") }),
+	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_s}},      spawn,           CMD("systemctl", "suspend")}),
+	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_h}},      spawn,           CMD("systemctl", "hibernate") }),
+	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_r}},      spawn,           CMD("reboot") }),
+	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_p}},      spawn,           CMD("poweroff") }),
+	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_l}},      spawn,           CMD("xscreensaver-command", "--activate") }),
 
     // Keybinds for controlling rofi
-    &((Keychord) {1, {{MODKEY, XK_c}}, spawn, {.v = (const char*[]) {"rofi", "-show", "run", NULL}}}),
-    &((Keychord) {1, {{MODKEY, XK_x}}, spawn, {.v = (const char*[]) {"rofi", "-show", "drun", NULL}}}),
+    &((Keychord) {1, {{MODKEY, XK_c}}, spawn, CMD("rofi", "-show", "run")}),
+    &((Keychord) {1, {{MODKEY, XK_x}}, spawn, CMD("rofi", "-show", "drun")}),
 
     // Keybinds for starting some common apps I use.
-    &((Keychord) {1, {{MODKEY, XK_s}}, spawn, {.v = (const char*[]) {"steam", NULL}}}),
-    &((Keychord) {1, {{MODKEY, XK_d}}, spawn, {.v = (const char*[]) {"flatpak", "run", "dev.vencord.Vesktop", NULL}}}),
-    &((Keychord) {1, {{MODKEY, XK_g}}, spawn, {.v = (const char*[]) {"flatpak", "run", "org.gimp.GIMP", NULL}}}),
-    &((Keychord) {1, {{MODKEY, XK_z}}, spawn, {.v = (const char*[]) {"flatpak", "run", "app.zen_browser.zen", NULL}}}),
-    &((Keychord) {1, {{MODKEY, XK_m}}, spawn, {.v = (const char*[]) {"flatpak", "run", "org.prismlauncher.PrismLauncher", NULL}}}),
+    &((Keychord) {1, {{MODKEY, XK_s}}, spawn, CMD("steam")}),
+    &((Keychord) {1, {{MODKEY, XK_d}}, spawn, CMD("flatpak", "run", "dev.vencord.Vesktop")}),
+    &((Keychord) {1, {{MODKEY, XK_g}}, spawn, CMD("flatpak", "run", "org.gimp.GIMP")}),
+    &((Keychord) {1, {{MODKEY, XK_z}}, spawn, CMD("flatpak", "run", "app.zen_browser.zen")}),
+    &((Keychord) {1, {{MODKEY, XK_m}}, spawn, CMD("flatpak", "run", "org.prismlauncher.PrismLauncher")}),
 
     // Keybinds for controlling the sound and music player
-    &((Keychord) {1, {{MODKEY, XK_equal}}, spawn, {.v = (const char*[]) {"pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL}}}),
-    &((Keychord) {1, {{MODKEY, XK_minus}}, spawn, {.v = (const char*[]) {"pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL}}}),
-    &((Keychord) {1, {{MODKEY|ShiftMask, XK_equal}}, spawn, {.v = (const char*[]) {"pactl", "set-sink-volume", "@DEFAULT_SINK@", "+1%", NULL}}}),
-    &((Keychord) {1, {{MODKEY|ShiftMask, XK_minus}}, spawn, {.v = (const char*[]) {"pactl", "set-sink-volume", "@DEFAULT_SINK@", "-1%", NULL}}}),
-    &((Keychord) {1, {{0, XF86XK_AudioRaiseVolume}}, spawn, {.v = (const char*[]) {"pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL}}}),
-    &((Keychord) {1, {{0, XF86XK_AudioLowerVolume}}, spawn, {.v = (const char*[]) {"pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL}}}),
-    &((Keychord) {1, {{0|ShiftMask, XF86XK_AudioRaiseVolume}}, spawn, {.v = (const char*[]) {"pactl", "set-sink-volume", "@DEFAULT_SINK@", "+1%", NULL}}}),
-    &((Keychord) {1, {{0|ShiftMask, XF86XK_AudioLowerVolume}}, spawn, {.v = (const char*[]) {"pactl", "set-sink-volume", "@DEFAULT_SINK@", "-1%", NULL}}}),
-    &((Keychord) {1, {{0, XF86XK_AudioMute}}, spawn, {.v = (const char*[]) {"pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL}}}),
-    &((Keychord) {1, {{0, XF86XK_AudioMedia}}, spawn, {.v = (const char*[]) {"playerctl", "play-pause", NULL}}}),
-    &((Keychord) {1, {{0, XF86XK_AudioPlay}}, spawn, {.v = (const char*[]) {"playerctl", "play-pause", NULL}}}),
-    &((Keychord) {1, {{0, XF86XK_AudioPrev}}, spawn, {.v = (const char*[]) {"playerctl", "previous", NULL}}}),
-    &((Keychord) {1, {{0, XF86XK_AudioNext}}, spawn, {.v = (const char*[]) {"playerctl", "next", NULL}}}),
+    &((Keychord) {1, {{MODKEY, XK_equal}}, spawn, CMD("pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%")}),
+    &((Keychord) {1, {{MODKEY, XK_minus}}, spawn, CMD("pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%")}),
+    &((Keychord) {1, {{MODKEY|ShiftMask, XK_equal}}, spawn, CMD("pactl", "set-sink-volume", "@DEFAULT_SINK@", "+1%")}),
+    &((Keychord) {1, {{MODKEY|ShiftMask, XK_minus}}, spawn, CMD("pactl", "set-sink-volume", "@DEFAULT_SINK@", "-1%")}),
+    &((Keychord) {1, {{0, XF86XK_AudioRaiseVolume}}, spawn, CMD("pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%")}),
+    &((Keychord) {1, {{0, XF86XK_AudioLowerVolume}}, spawn, CMD("pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%")}),
+    &((Keychord) {1, {{0|ShiftMask, XF86XK_AudioRaiseVolume}}, spawn, CMD("pactl", "set-sink-volume", "@DEFAULT_SINK@", "+1%")}),
+    &((Keychord) {1, {{0|ShiftMask, XF86XK_AudioLowerVolume}}, spawn, CMD("pactl", "set-sink-volume", "@DEFAULT_SINK@", "-1%")}),
+    &((Keychord) {1, {{0, XF86XK_AudioMute}}, spawn, CMD("pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle")}),
+    &((Keychord) {1, {{0, XF86XK_AudioMedia}}, spawn, CMD("playerctl", "play-pause")}),
+    &((Keychord) {1, {{0, XF86XK_AudioPlay}}, spawn, CMD("playerctl", "play-pause")}),
+    &((Keychord) {1, {{0, XF86XK_AudioPrev}}, spawn, CMD("playerctl", "previous")}),
+    &((Keychord) {1, {{0, XF86XK_AudioNext}}, spawn, CMD("playerctl", "next")}),
 
-    // Keybind to check the Dow Jones Industrial Average, bc why tf not?
-    &((Keychord) {1, {{MODKEY|ControlMask, XK_d}}, spawn, {.v = (const char*[]) {"xdg-open", "https://duckduckgo.com/?t=ffab&q=dow+jones&ia=web", NULL}}}),
+    // Keybind to check the Dow Jones Industrial Average, bc I enjoy watching the economy of my country die
+    &((Keychord) {1, {{MODKEY|ControlMask, XK_d}}, spawn, CMD("xdg-open", "https://duckduckgo.com/?t=ffab&q=dow+jones&ia=web")}),
 };
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
@@ -141,7 +143,7 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	{ ClkStatusText,        0,              Button2,        spawn,          CMD(terminal)},
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
