@@ -2352,9 +2352,16 @@ static void
 bstackhoriz(Monitor *m) {
 	int w, mh, mx, tx, ty, th;
 	unsigned int i, n;
+	float mfacts = 0, sfacts = 0;
 	Client *c;
 
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
+        if (n < m->nmaster)
+            mfacts += c->cfact;
+        else
+            sfacts += c->cfact;
+    }
+
 	if (n == 0)
 		return;
 	if (n > m->nmaster) {
@@ -2367,10 +2374,14 @@ bstackhoriz(Monitor *m) {
 	}
 	for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
 		if (i < m->nmaster) {
-			w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
+			w = (m->ww - mx) * (c->cfact / mfacts);
 			resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 * c->bw), 0);
 			mx += WIDTH(c);
+            mfacts -= c->cfact;
 		} else {
+            th = (m->wh - mh) * (c->cfact / sfacts); // I'm really not good at math, right? I
+                                                     // totally just guessed how to do this shit,
+                                                     // and somehow it worked. What the fuck?
 			resize(c, tx, ty, m->ww - (2 * c->bw), th - (2 * c->bw), 0);
 			if (th != m->wh)
 				ty += HEIGHT(c);

@@ -6,4 +6,8 @@
 - systray support for the bar, alongside optionally sgrstatus patch.
 - config option for attaching to either the top or bottom of the stack.
 - Experiment with fullscreen patches. I want something that works nicer for games.
+- Experiment with scratchpads for juggling many VMs in one tag?
+
+--- what kind of dev work do I want to do??? ---
+- GUI programming?
 
