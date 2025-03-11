@@ -42,6 +42,8 @@ localinstall: all
 	mkdir -p ${HOME}/.local/bin
 	cp -f dwm ${HOME}/.local/bin
 
+l: localinstall
+
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1
