@@ -2390,14 +2390,26 @@ bstackhoriz(Monitor *m) {
 	}
 }
 
+// BUG: cfacts support for this tiling mode is very half-assed. It doesn't work the way it's
+// supposed to, and that makes me sad. But it works good enough for me to think about fixing it
+// later...
 void
 centeredmaster(Monitor *m)
 {
 	unsigned int i, n, h, mw, mx, my, oty, ety, tw;
+    float mfacts = 0, lfacts = 0, rfacts = 0;
 	Client *c;
 
 	/* count number of clients in the selected monitor */
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
+        if (n < m->nmaster)
+            mfacts += c->cfact;
+        else if ((n - m->nmaster) % 2)
+            lfacts += c->cfact;
+        else
+            rfacts += c->cfact;
+    }
+
 	if (n == 0)
 		return;
 
@@ -2425,22 +2437,30 @@ centeredmaster(Monitor *m)
 	if (i < m->nmaster) {
 		/* nmaster clients are stacked vertically, in the center
 		 * of the screen */
-		h = (m->wh - my) / (MIN(n, m->nmaster) - i);
+		// h = (m->wh - my) / (MIN(n, m->nmaster) - i);
+        h = (m->wh - my) * (c->cfact / mfacts);
 		resize(c, m->wx + mx, m->wy + my, mw - (2*c->bw),
 		       h - (2*c->bw), 0);
 		my += HEIGHT(c);
+        mfacts -= c->cfact;
 	} else {
 		/* stack clients are stacked vertically */
 		if ((i - m->nmaster) % 2 ) {
-			h = (m->wh - ety) / ( (1 + n - i) / 2);
+			// h = (m->wh - ety) / ( (1 + n - i) / 2);
+            h = (m->wh - ety) * (c->cfact / lfacts);
 			resize(c, m->wx, m->wy + ety, tw - (2*c->bw),
 			       h - (2*c->bw), 0);
 			ety += HEIGHT(c);
+            lfacts -= c->cfact;
 		} else {
-			h = (m->wh - oty) / ((1 + n - i) / 2);
+            if (i == n - 1)
+                h = (m->wh - oty) / ((1 + n - i) / 2);
+            else
+                h = (m->wh - ety) * (c->cfact / rfacts);
 			resize(c, m->wx + mx + mw, m->wy + oty,
 			       tw - (2*c->bw), h - (2*c->bw), 0);
 			oty += HEIGHT(c);
+            rfacts -= c->cfact;
 		}
 	}
 }
