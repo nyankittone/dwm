@@ -1,9 +1,9 @@
 --- patchset goals ---
-- New layouts: bottomstack, and centeredmaster.
 - pertag patch and combo patch working together.
 - alwayscenter patch.
 - cursorwarp patch.
 - systray support for the bar, alongside optionally sgrstatus patch.
+- fix cfacts for centeredmaster.
 - config option for attaching to either the top or bottom of the stack.
 - Experiment with fullscreen patches. I want something that works nicer for games.
 - Experiment with scratchpads for juggling many VMs in one tag?
