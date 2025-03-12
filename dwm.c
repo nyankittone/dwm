@@ -2447,7 +2447,10 @@ centeredmaster(Monitor *m)
 		/* stack clients are stacked vertically */
 		if ((i - m->nmaster) % 2 ) {
 			// h = (m->wh - ety) / ( (1 + n - i) / 2);
-            h = (m->wh - ety) * (c->cfact / lfacts);
+            // if (i == n - 1)
+            //     h = (m->wh - oty) / ((1 + n - i) / 2);
+            // else
+                h = (m->wh - ety) * (c->cfact / lfacts);
 			resize(c, m->wx, m->wy + ety, tw - (2*c->bw),
 			       h - (2*c->bw), 0);
 			ety += HEIGHT(c);
