@@ -1,5 +1,6 @@
 --- patchset goals ---
 - systray support for the bar, alongside optionally sgrstatus patch.
+- statusallmons patch.
 - fix cfacts for centeredmaster.
 - config option for attaching to either the top or bottom of the stack.
 - Experiment with fullscreen patches. I want something that works nicer for games.
