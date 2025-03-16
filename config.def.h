@@ -99,8 +99,6 @@ static const Keychord *keychords[] = {
 	TAGKEYS(                        XK_6,                      5)
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
-	// &((Keychord){1, {{MODKEY|ShiftMask,             XK_q}},      quit,           {.i = 0} }),
-
 	&((Keychord){1, {{MODKEY|ShiftMask,             XK_h}},      setcfact,       {.f = -0.25} }),
 	&((Keychord){1, {{MODKEY|ShiftMask,             XK_l}},      setcfact,       {.f = +0.25} }),
 	&((Keychord){1, {{MODKEY,             XK_o}},      setcfact,       {.f =  0.00} }),
@@ -110,11 +108,12 @@ static const Keychord *keychords[] = {
     // Stuff relating to exiting dwm and power management control.
 	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_q}},      quit,           {.i = 2} }),
 	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_w}},      quit,           {.i = 0} }),
-	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_s}},      spawn,           SHCMD("systemctl suspend") }),
-	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_h}},      spawn,           SHCMD("systemctl hibernate") }),
-	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_r}},      spawn,           SHCMD("reboot") }),
-	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_p}},      spawn,           SHCMD("poweroff") }),
-	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_l}},      spawn,           SHCMD("xscreensaver-command --activate") }),
+	// &((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_s}},      spawn,           SHCMD("systemctl suspend") }),
+	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_s}},      spawn, {.v = (const char*[]) {"systemctl", "suspend", NULL}}}),
+	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_h}},      spawn, {.v = (const char*[]) {"systemctl", "hibernate", NULL}}}),
+	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_r}},      spawn, {.v = (const char*[]) {"reboot", NULL}}}),
+	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_p}},      spawn, {.v = (const char*[]) {"poweroff", NULL}}}),
+	&((Keychord){2, {{ MODKEY|ShiftMask, XK_q}, {0, XK_l}},      spawn, {.v = (const char*[]) {"xscreensaver-command", "--activate", NULL}}}),
 
     // Keybinds for controlling rofi
     &((Keychord) {1, {{MODKEY, XK_c}}, spawn, {.v = (const char*[]) {"rofi", "-show", "run", NULL}}}),
