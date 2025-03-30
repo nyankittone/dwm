@@ -20,7 +20,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging. I might add a 9th tag again in the future tbh... */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -85,7 +85,7 @@ static const Keychord *keychords[] = {
 	&((Keychord){1, {{MODKEY,                       XK_w}},      setlayout,      {.v = &layouts[5]} }),
 	&((Keychord){1, {{MODKEY,                       XK_space}},  setlayout,      {0} }),
 	&((Keychord){1, {{MODKEY|ShiftMask,             XK_space}},  togglefloating, {0} }),
-	&((Keychord){1, {{MODKEY,                       XK_9}},      view,           {.ui = ~0 } }),
+	&((Keychord){1, {{MODKEY,                       XK_0}},      view,           {.ui = ~0 } }),
 	&((Keychord){1, {{MODKEY|ShiftMask,             XK_0}},      tag,            {.ui = ~0 } }),
 	&((Keychord){1, {{MODKEY,                       XK_comma}},  focusmon,       {.i = -1 } }),
 	&((Keychord){1, {{MODKEY,                       XK_period}}, focusmon,       {.i = +1 } }),
@@ -99,6 +99,7 @@ static const Keychord *keychords[] = {
 	TAGKEYS(                        XK_6,                      5)
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
+	TAGKEYS(                        XK_9,                      8)
 	&((Keychord){1, {{MODKEY|ShiftMask,             XK_h}},      setcfact,       {.f = -0.25} }),
 	&((Keychord){1, {{MODKEY|ShiftMask,             XK_l}},      setcfact,       {.f = +0.25} }),
 	&((Keychord){1, {{MODKEY,             XK_o}},      setcfact,       {.f =  0.00} }),
