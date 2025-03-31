@@ -44,6 +44,12 @@ localinstall: all
 
 l: localinstall
 
+nix:
+	nix-build
+
+nixi:
+	nix-env -if ./default.nix
+
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1
