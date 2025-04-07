@@ -135,6 +135,10 @@ or:
 Doing this means that you won't need root privileges to install `dwm`. However, dwm's manpages
 will not be installed if you choose to do this.
 
+If you're using NixOS, you can install `dwm` imperatively, by running this command:
+
+    make nixi
+
 ## Running dwm
 Add the following line to your .xinitrc to start dwm using startx:
 
