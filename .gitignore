@@ -3,3 +3,6 @@
 *.rej
 *.orig
 /dwm
+/result
+/config.h
+
