@@ -3,7 +3,7 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx  = 6;        /* border pixel of windows */
+static const unsigned int borderpx  = 4;        /* border pixel of windows */
 static const unsigned int snap      = 16;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
@@ -12,7 +12,7 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
-static const char *fonts[]          = { "ZedMono Nerd Font:size=26" };
+static const char *fonts[]          = { "ZedMono Nerd Font:size=14" };
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { "#b7bdf8", "#26273a", "#494d64" },
@@ -29,9 +29,9 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ NULL,  NULL,       "Zen Browser",       1,       0,           0 },
-	{ "vesktop",  NULL,       NULL,       2,       0,           1 },
-	{ "discord",  NULL,       NULL,       2,       0,           1 },
-	{ "steam",  NULL,       NULL,       4,       0,           1 },
+	{ "vesktop",  NULL,       NULL,       4,       0,           0 },
+	{ "discord",  NULL,       NULL,       4,       0,           0 },
+	{ "steam",  NULL,       NULL,       8,       0,           0 },
 };
 
 /* layout(s) */
@@ -122,10 +122,10 @@ static const Keychord *keychords[] = {
 
     // Keybinds for starting some common apps I use.
     &((Keychord) {1, {{MODKEY, XK_s}}, spawn, {.v = (const char*[]) {"steam", NULL}}}),
-    &((Keychord) {1, {{MODKEY, XK_d}}, spawn, {.v = (const char*[]) {"flatpak", "run", "dev.vencord.Vesktop", NULL}}}),
+    &((Keychord) {1, {{MODKEY, XK_d}}, spawn, {.v = (const char*[]) {"vesktop", NULL}}}),
     &((Keychord) {1, {{MODKEY, XK_g}}, spawn, {.v = (const char*[]) {"flatpak", "run", "org.gimp.GIMP", NULL}}}),
-    &((Keychord) {1, {{MODKEY, XK_z}}, spawn, {.v = (const char*[]) {"flatpak", "run", "app.zen_browser.zen", NULL}}}),
-    &((Keychord) {1, {{MODKEY, XK_m}}, spawn, {.v = (const char*[]) {"flatpak", "run", "org.prismlauncher.PrismLauncher", NULL}}}),
+    &((Keychord) {1, {{MODKEY, XK_z}}, spawn, {.v = (const char*[]) {"zen", NULL}}}),
+    &((Keychord) {1, {{MODKEY, XK_m}}, spawn, {.v = (const char*[]) {"prismlauncher", NULL}}}),
 
     // Keybinds for controlling the sound and music player
     &((Keychord) {1, {{MODKEY, XK_equal}}, spawn, {.v = (const char*[]) {"pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL}}}),
